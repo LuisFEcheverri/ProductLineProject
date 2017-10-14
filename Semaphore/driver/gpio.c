@@ -20,8 +20,6 @@
 #include "freertos/FreeRTOS.h" 
 #include "freertos/task.h"
 //--
-extern uint8_t ButtonPressedFlag;
-extern int32_t current_cnt_value;
 
 GPIO_ConfigTypeDef pGPIOConfigButton;
 
@@ -230,73 +228,19 @@ gpio16_input_get(void)
 }
 
 /*#############################################################
-   # Interrupt service routine for GPIO                       #
-   # Added by Felipe 02-08-17                                 #
-   ############################################################*/
-void gpio_intr_handler(void){
-	  uint8_t ButtonS=1;
-    uint32_t i=0;
-    uint16 gpio_pin_mask = pGPIOConfigButton.GPIO_Pin;
-    uint8 io_num = 0;
-    uint32 gpio_status = GPIO_REG_READ(GPIO_STATUS_ADDRESS);
-
-      if ((gpio_status & gpio_pin_mask) ) 
-      {
-
-         //disable interrupt
-         gpio_pin_intr_state_set(io_num, GPIO_PIN_INTR_DISABLE);
-         
-		 // call func here
-      
-      
-      //delay for debounce, this is no the best practice
-      for(i=0;i<200000;i++){
-       if (i%100000==0){
-        printf(".");
-        }
-      }
-      ButtonS = GPIO_INPUT_GET(Button);
-      if (ButtonS==0){
-            //read count from  EEPROM//
-          (void) system_rtc_mem_read(64,&current_cnt_value,1);
-           current_cnt_value++;
-            //save in EEPROM//
-           (void) system_rtc_mem_write(64,&current_cnt_value,1);
-          ButtonPressedFlag=1;
-   		   printf("Button Interrupt \n");
-              
-          //sendData();
-        }
-		 //clear interrupt status
-         GPIO_REG_WRITE(GPIO_STATUS_W1TC_ADDRESS, gpio_status & gpio_pin_mask);
-     // restore
-         gpio_pin_intr_state_set(io_num, pGPIOConfigButton.GPIO_IntrType);
-      }
-}
-
-/*#############################################################
    # Init GPIO                                                #
    # Added by Felipe 02-08-17                                 #
    ############################################################*/
-   
-      
 void gpio_init(void){
-
-  GPIO_ConfigTypeDef pGPIOConfig;
-	pGPIOConfig.GPIO_IntrType = GPIO_PIN_INTR_DISABLE;
-	pGPIOConfig.GPIO_Mode     = GPIO_Mode_Output;
-	pGPIOConfig.GPIO_Pullup   = GPIO_PullUp_EN;
-	
-	pGPIOConfig.GPIO_Pin = (BIT(LED));
-	gpio_config(&pGPIOConfig);
-	
-	pGPIOConfigButton.GPIO_IntrType = GPIO_PIN_INTR_NEGEDGE;
-	pGPIOConfigButton.GPIO_Mode     = GPIO_Mode_Input;
-	pGPIOConfigButton.GPIO_Pullup   = GPIO_PullUp_EN;
-	
-	pGPIOConfigButton.GPIO_Pin = (BIT(Button));
-	gpio_config(&pGPIOConfigButton);
-
-	gpio_intr_handler_register(gpio_intr_handler);	
+    GPIO_ConfigTypeDef pGPIOConfig;  
+    pGPIOConfig.GPIO_IntrType = GPIO_PIN_INTR_DISABLE;  
+    pGPIOConfig.GPIO_Mode = GPIO_Mode_Output;  
+    pGPIOConfig.GPIO_Pullup = GPIO_PullUp_EN;  
+    pGPIOConfig.GPIO_Pin = (BIT(12));  
+    gpio_config( & pGPIOConfig);  
+    pGPIOConfig.GPIO_Pin = (BIT(13));  
+    gpio_config( & pGPIOConfig);  
+    pGPIOConfig.GPIO_Pin = (BIT(14));  
+    gpio_config( & pGPIOConfig); 
 }
 
