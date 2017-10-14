@@ -21,7 +21,6 @@
 #include "freertos/task.h"
 //--
 extern uint8_t ButtonPressedFlag;
-extern int32_t current_cnt_value;
 
 GPIO_ConfigTypeDef pGPIOConfigButton;
 
@@ -257,17 +256,10 @@ void gpio_intr_handler(void){
       }
       ButtonS = GPIO_INPUT_GET(Button);
       if (ButtonS==0){
-            //read count from  EEPROM//
-          (void) system_rtc_mem_read(64,&current_cnt_value,1);
-           current_cnt_value++;
-            //save in EEPROM//
-           (void) system_rtc_mem_write(64,&current_cnt_value,1);
           ButtonPressedFlag=1;
    		   printf("Button Interrupt \n");
-              
-          //sendData();
         }
-		 //clear interrupt status
+     //clear interrupt status
          GPIO_REG_WRITE(GPIO_STATUS_W1TC_ADDRESS, gpio_status & gpio_pin_mask);
      // restore
          gpio_pin_intr_state_set(io_num, pGPIOConfigButton.GPIO_IntrType);
@@ -283,13 +275,6 @@ void gpio_intr_handler(void){
 void gpio_init(void){
 
   GPIO_ConfigTypeDef pGPIOConfig;
-	pGPIOConfig.GPIO_IntrType = GPIO_PIN_INTR_DISABLE;
-	pGPIOConfig.GPIO_Mode     = GPIO_Mode_Output;
-	pGPIOConfig.GPIO_Pullup   = GPIO_PullUp_EN;
-	
-	pGPIOConfig.GPIO_Pin = (BIT(LED));
-	gpio_config(&pGPIOConfig);
-	
 	pGPIOConfigButton.GPIO_IntrType = GPIO_PIN_INTR_NEGEDGE;
 	pGPIOConfigButton.GPIO_Mode     = GPIO_Mode_Input;
 	pGPIOConfigButton.GPIO_Pullup   = GPIO_PullUp_EN;
