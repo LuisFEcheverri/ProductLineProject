@@ -274,14 +274,12 @@ void gpio_intr_handler(void){
       
 void gpio_init(void){
 
-  GPIO_ConfigTypeDef pGPIOConfig;
-	pGPIOConfigButton.GPIO_IntrType = GPIO_PIN_INTR_NEGEDGE;
-	pGPIOConfigButton.GPIO_Mode     = GPIO_Mode_Input;
-	pGPIOConfigButton.GPIO_Pullup   = GPIO_PullUp_EN;
-	
-	pGPIOConfigButton.GPIO_Pin = (BIT(Button));
-	gpio_config(&pGPIOConfigButton);
-
-	gpio_intr_handler_register(gpio_intr_handler);	
+    GPIO_ConfigTypeDef pGPIOConfig;
+    pGPIOConfig.GPIO_IntrType = GPIO_PIN_INTR_NEGEDGE;
+    pGPIOConfig.GPIO_Mode     = GPIO_Mode_Input;
+    pGPIOConfig.GPIO_Pullup   = GPIO_PullUp_EN;
+    pGPIOConfig.GPIO_Pin = (BIT(5));
+    gpio_config(&pGPIOConfig);
+    gpio_intr_handler_register(gpio_intr_handler);	
 }
 
