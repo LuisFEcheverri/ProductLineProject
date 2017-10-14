@@ -250,8 +250,8 @@ void gpio_intr_handler(void){
       
       
       //delay for debounce, this is no the best practice
-      for(i=0;i<200000;i++){
-       if (i%100000==0){
+      for(i=0;i<10000;i++){
+       if (i%5000==0){
         printf(".");
         }
       }
