@@ -7,11 +7,11 @@
  * it, you can buy us a beer in return 
  * ----------------------------------------------------------------------------
  */
-/* File:         BUTTON
+/* File:         SEMAPHORE
    Desined by:   Luis Felipe Echeverri
                  Alberth Moreno
-				 Juan Manuel Gomez
+		 Juan Manuel Gomez
    Description: This code implements a simple Semaphore for production lines in pymes,
                 this ligth change the color when the line production increase the 
-				production,  
+		production,  
 */  
