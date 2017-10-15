@@ -249,8 +249,8 @@ void gpio_intr_handler(void){
       
       
       //delay for debounce, this is no the best practice
-      for(i=0;i<200000;i++){
-       if (i%100000==0){
+      for(i=0;i<10000;i++){
+       if (i%5000==0){
         printf(".");
         }
       }
@@ -274,12 +274,11 @@ void gpio_intr_handler(void){
       
 void gpio_init(void){
 
-    GPIO_ConfigTypeDef pGPIOConfig;
-    pGPIOConfig.GPIO_IntrType = GPIO_PIN_INTR_NEGEDGE;
-    pGPIOConfig.GPIO_Mode     = GPIO_Mode_Input;
-    pGPIOConfig.GPIO_Pullup   = GPIO_PullUp_EN;
-    pGPIOConfig.GPIO_Pin = (BIT(5));
-    gpio_config(&pGPIOConfig);
+    pGPIOConfigButton.GPIO_IntrType = GPIO_PIN_INTR_NEGEDGE;
+    pGPIOConfigButton.GPIO_Mode     = GPIO_Mode_Input;
+    pGPIOConfigButton.GPIO_Pullup   = GPIO_PullUp_EN;
+    pGPIOConfigButton.GPIO_Pin = (BIT(5));
+    gpio_config(&pGPIOConfigButton);
     gpio_intr_handler_register(gpio_intr_handler);	
 }
 
