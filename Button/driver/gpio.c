@@ -4,7 +4,7 @@
  *
 * File:          GPIO.c
    Desined by:   Luis Felipe Echeverri
-                 Alberth Moreno
+                 Alberth Moreno no volvio
 				         Juan Manuel Gomez
    Description:  modified 02-08-2017, is added ISR and init_gpio function, also the interrupt 
                  is enable in  gpio_config  function when it is selected 
@@ -300,3 +300,4 @@ void gpio_init(void){
 	gpio_intr_handler_register(gpio_intr_handler);	
 }
 
+//Hola COmentario
